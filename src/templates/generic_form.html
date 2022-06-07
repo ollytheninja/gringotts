@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post" class="form">
+        {% csrf_token %}
+
+        {{ form }}
+
+        <span class="pull-right">
+            <a class="btn btn-danger" onclick="history.back()">Cancel</a>
+            <input type="submit" class="btn btn-success" value="Save"/>
+        </span>
+
+    </form>
+{% endblock %}
