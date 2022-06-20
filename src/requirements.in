@@ -2,4 +2,8 @@
 # Versions are only pinned here if it is needed for a specific reason.
 # A pipeline automatically raises pull requests to update requirements.txt based on this file
 
+# Django itself
 Django
+
+# gunicorn webserver
+gunicorn
