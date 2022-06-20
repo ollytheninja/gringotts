@@ -1,0 +1,16 @@
+# This file tells Docker to ignore certain files
+# You'll notice this file is _very_ similar to .gitignore
+# This is by design they both need to ignore the same files.
+
+# .env can contain secrets - there's no good reason for these to be included in a container image
+*.env
+
+# .sqlite3 databases will only exist for development purposes, they should never make it into a container image
+*.sqlite3
+
+# Just exclude the entire database directory
+database/
+
+# git history isn't needed in the container and may bloat the image.
+.git
+

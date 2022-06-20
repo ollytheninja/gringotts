@@ -7,3 +7,6 @@ Django
 
 # gunicorn webserver
 gunicorn
+
+# Enables loading .env files as environment variables
+python-dotenv
