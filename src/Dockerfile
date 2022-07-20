@@ -27,7 +27,7 @@ RUN apk update && \
 ENV PATH="/venv/bin:$PATH"
 RUN python -m venv /venv
 
-COPY src/requirements.txt .
+COPY requirements.txt .
 RUN pip install -r requirements.txt --no-cache-dir
 
 FROM python:3.9-alpine as runtime
@@ -42,7 +42,7 @@ RUN mkdir /app
 WORKDIR "/app"
 
 # Copy all the source into /app
-COPY ./src .
+COPY . .
 
 # Make our entrypoint script executable and run it!
 RUN chmod +x /app/entrypoint.sh

@@ -1,3 +1,19 @@
+# This file tells git to ignore certain files
+# You'll notice this file is _very_ similar to .dockerignore
+# This is by design they both need to ignore the same files.
+# Don't know what to add? https://gitignore.io/ is a great tool to generate ignore templates
+
+# .env can contain secrets - there's no good reason for these to be included in a container image
+.env
+
+# .sqlite3 databases will only exist for development purposes, they should never make it into a container image
+*.sqlite3
+
+# Just exclude the entire database directory
+database/
+
+# git history isn't needed in the container and may bloat the image.
+.git
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
