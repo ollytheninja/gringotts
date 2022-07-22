@@ -46,12 +46,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "accounts",
+    "authz_enforce",
     "demo",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "authz_enforce.middleware.RequireAuthzMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
