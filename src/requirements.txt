@@ -10,7 +10,7 @@ django==4.1.0
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
-python-dotenv==0.20.0
+python-dotenv==0.21.1
     # via -r requirements.in
 sqlparse==0.4.2
     # via django
