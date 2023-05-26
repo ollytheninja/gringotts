@@ -4,6 +4,7 @@
 #
 #    pip-compile
 #
+# --index-url https://test:PDYZJUWYTQEYB6ABCEFGHIJKLMNOPQRSTUV@packages.tools.demo.com/pypi/
 
 asgiref==3.5.2
     # via django
