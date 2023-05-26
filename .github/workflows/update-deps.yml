@@ -24,6 +24,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
 
     - name: Install Dependencies
       run: |
@@ -36,7 +37,7 @@ jobs:
       run: |
         cd src
         pip-compile --upgrade
-        pip-compile --upgrade requirements-dev.in
+        # pip-compile --upgrade requirements-dev.in
 
     - name: Commit files
       run: |
