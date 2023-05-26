@@ -5,10 +5,9 @@
 #    pip-compile
 #
 # --index-url https://test:PDYZJUWYTQEYB6ABCEFGHIJKLMNOPQRSTUV@packages.tools.demo.com/pypi/
-
-asgiref==3.5.2
+asgiref==3.7.1
     # via django
-django==4.1.1
+django==4.2.1
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
