@@ -1,3 +1,4 @@
+pip install pip-tools
 pip-compile --upgrade
 
 pip-compile requirements-dev.in --upgrade
