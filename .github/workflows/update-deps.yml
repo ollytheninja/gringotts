@@ -1,0 +1,59 @@
+name: Update Dependencies
+
+on:
+  schedule:
+    - cron: '33 14 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  pull-requests: write
+  contents: write
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        
+    - name: Update Dependencies
+      run: |
+        cd src
+        pip-compile --upgrade
+        pip-compile --upgrade requirements-dev.in
+
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        if [[ `git status --porcelain` ]]; then
+          git checkout -B pip-deps
+          git commit -a -m'[bot] update dependencies'
+          git push -u origin pip-deps
+        fi
+
+    - name: Create PR
+      uses: devops-infra/action-pull-request@v0.4.2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        source_branch: pip-deps
+        target_branch: main
+        title: Update python dependencies
+        body: "**Automated dependency update**"
+        reviewer: ollytheninja
+        assignee: ollytheninja
