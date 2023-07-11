@@ -6,7 +6,7 @@
 #
 asgiref==3.7.2
     # via django
-django==4.2.2
+django==4.2.3
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
