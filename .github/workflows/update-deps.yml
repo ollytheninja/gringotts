@@ -46,9 +46,14 @@ jobs:
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
         git config --global user.email "ollytheninja@users.noreply.github.com"
         
-        git checkout -B pip-deps
-        git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
-        git push -f -u origin pip-deps
+        if [[ -z $(git status -s) ]]
+        then
+          echo "Nothing to commit"
+        else
+          git checkout -B pip-deps
+          git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git push -f -u origin pip-deps
+        fi
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
