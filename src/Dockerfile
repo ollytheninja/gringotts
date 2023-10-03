@@ -1,5 +1,5 @@
 # Some things are required at all stages, so we'll define them up front.
-FROM python:3.9-alpine as builder
+FROM python:3.12-alpine as builder
 
 # With the $PYTHONDONTWRITEBYTECODE environment variable set,
 # Python will no longer write .pyc files to disk.
@@ -30,7 +30,7 @@ RUN python -m venv /venv
 COPY requirements.txt .
 RUN pip install -r requirements.txt --no-cache-dir
 
-FROM python:3.9-alpine as runtime
+FROM python:3.12-alpine as runtime
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
