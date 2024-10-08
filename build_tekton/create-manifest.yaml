@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: create-manifest
+spec:
+  description: >-
+    This task takes a list of architectures + an image name, tag and target.
+    Pulls all the architectures, builds a manifest and uploads it.
+  params:
+    - name: IMAGE_NAME
+    - name: IMAGE_TAG
+    - name: ARCHITECTURES
+    - name: BUILDER_IMAGE
+      description: The image to run task on
+      default: mplatform/manifest-tool:alpine
+
+  steps:
+    - name: build-and-push-manifest
+      image: $(params.BUILDER_IMAGE)
+      script: |
+        /manifest-tool push from-args \
+        --platforms $(params.ARCHITECTURES) \
+        --template $(params.IMAGE_NAME):$(params.IMAGE_TAG)-ARCH \
+        --target $(params.IMAGE_NAME):$(params.IMAGE_TAG)

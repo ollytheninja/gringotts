@@ -1,0 +1,91 @@
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-multiarch-build
+spec:
+  description: |
+   This pipeline builds a multi-arch container image from source.
+
+  params:
+  - name: repo-url
+    type: string
+    description: The git repo URL to clone from.
+  - name: image-url
+    type: string
+    description: The image URL to push to.
+
+  workspaces:
+  - name: amd64-source
+    description: |
+      This workspace contains the cloned repo files, so they can be read by the
+      next task.
+  - name: arm64-source
+    description: |
+      This workspace contains the cloned repo files, so they can be read by the
+      next task.
+
+  tasks:
+  - name: fetch-amd64-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: amd64-source
+    params:
+    - name: url
+      value: $(params.repo-url)
+    - name: revision
+      value: main
+
+  - name: fetch-arm64-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: arm64-source
+    params:
+    - name: url
+      value: $(params.repo-url)
+    - name: revision
+      value: main
+
+  - name: build-amd64
+    runAfter: [fetch-amd64-source]
+    taskRef:
+      name: kaniko
+
+    workspaces:
+    - name: source
+      workspace: amd64-source
+
+    params:
+    - name: IMAGE
+      value: $(params.image-url):latest-amd64
+
+  - name: build-arm64
+    runAfter: [fetch-arm64-source]
+    taskRef:
+      name: kaniko
+
+    workspaces:
+    - name: source
+      workspace: arm64-source
+
+    params:
+    - name: IMAGE
+      value: $(params.image-url):latest-arm64
+
+  - name: create-manifest
+    runAfter: [build-arm64, build-amd64]
+    taskRef:
+      name: create-manifest
+
+    params:
+    - name: IMAGE_NAME
+      value: $(params.image-url)
+    - name: IMAGE_TAG
+      value: latest
+    - name: ARCHITECTURES
+      value: "linux/amd64,linux/arm64"

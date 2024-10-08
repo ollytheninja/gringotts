@@ -1,0 +1,45 @@
+---
+
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: pipeline-sinatra-hw-run
+spec:
+  pipelineRef:
+    name: pipeline-sinatra-hw
+
+  params:
+    - name: repo-url
+      value: https://github.com/BrianMMcClain/sinatra-hello-world.git
+
+    - name: image-url
+      value: registry.wbk.fantail.network/sinatra-hello-world-tekton-demo
+
+  taskRunSpecs:
+    - pipelineTaskName:  build-amd64
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: amd64
+    - pipelineTaskName:  build-arm64
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: arm64
+
+  workspaces:
+    - name: amd64-source
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 1Gi
+
+    - name: arm64-source
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 1Gi
