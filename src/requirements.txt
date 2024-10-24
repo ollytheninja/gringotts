@@ -4,17 +4,17 @@
 #
 #    pip-compile
 #
-asgiref==3.7.2
+asgiref==3.8.1
     # via django
-django==4.2.4
+django==4.2.16
     # via -r requirements.in
-gunicorn==21.2.0
+gunicorn==23.0.0
     # via -r requirements.in
-packaging==23.1
+packaging==24.1
     # via gunicorn
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via -r requirements.in
-sqlparse==0.4.4
+sqlparse==0.5.1
     # via django
-typing-extensions==4.7.1
+typing-extensions==4.12.2
     # via asgiref
